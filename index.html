@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Business Pitch Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #4a3f8a;
+        }
+
+        p.subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            min-width: 250px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #564b9e;
+        }
+
+        button:disabled {
+            background: #aaa;
+            cursor: not-allowed;
+        }
+
+        #output {
+            text-align: left;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            min-height: 150px;
+            white-space: pre-wrap;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            display: none;
+            border: 1px solid #eee;
+        }
+
+        .loading {
+            color: #667eea;
+            font-style: italic;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Business Pitch Generator</h1>
+        <p class="subtitle">Describe your business idea in a few words and let AI craft a compelling pitch for you.</p>
+
+        <div class="input-group">
+            <input type="text" id="ideaInput" placeholder="e.g., An app that uses AI to help people learn guitar faster">
+            <button id="generateBtn">Generate Pitch</button>
+        </div>
+
+        <div id="output"></div>
+
+        <footer>
+            Powered by a simple client-side template engine • No data is sent to servers
+        </footer>
+    </div>
+
+    <script>
+        const ideaInput = document.getElementById('ideaInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const output = document.getElementById('output');
+
+        // Simple template-based pitch generator (client-side only)
+        function generatePitch(idea) {
+            const lowerIdea = idea.toLowerCase();
+
+            // Extract possible company name or key product if mentioned
+            let product = idea.split(' ').slice(-2).join(' ');
+            if (product.includes('app')) product = product.charAt(0).toUpperCase() + product.slice(1);
+            else product = 'Our Solution';
+
+            return `**Elevator Pitch for: ${idea.trim()}**
+
+Imagine a world where ${lowerIdea.startsWith('an') || lowerIdea.startsWith('a') ? idea : 'people can ' + lowerIdea}.
+
+Introducing **${product.charAt(0).toUpperCase() + product.slice(1)}** — the revolutionary platform that makes this a reality.
+
+**The Problem:**
+Every day, millions struggle with traditional methods that are slow, expensive, and ineffective when trying to ${lowerIdea}.
+
+**Our Solution:**
+${product} leverages cutting-edge AI to deliver personalized, fast, and engaging experiences that help users achieve their goals 10x faster.
+
+**Key Benefits:**
+• Instant personalized feedback and guidance
+• Accessible anytime, anywhere
+• Proven results with measurable progress
+• Affordable and scalable for everyone
+
+**Market Opportunity:**
+We're targeting a $XX billion market growing at XX% annually, with millions of potential users worldwide.
+
+**Traction & Vision:**
+Early users are loving it, and we're ready to scale. With your support, we can transform how the world ${lowerIdea}.
+
+Let's build the future together.`;
+        }
+
+        generateBtn.addEventListener('click', () => {
+            const idea = ideaInput.value.trim();
+
+            if (!idea) {
+                alert('Please enter a business idea!');
+                return;
+            }
+
+            // Show loading state
+            output.style.display = 'block';
+            output.textContent = 'Crafting your pitch...';
+            output.classList.add('loading');
+            generateBtn.disabled = true;
+
+            // Simulate small delay for realism
+            setTimeout(() => {
+                const pitch = generatePitch(idea);
+                output.textContent = pitch;
+                output.classList.remove('loading');
+                generateBtn.disabled = false;
+            }, 1200);
+        });
+
+        // Allow pressing Enter to generate
+        ideaInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                generateBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
